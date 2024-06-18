@@ -1,57 +1,79 @@
 package particles;
 
+import Main.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
-import java.util.Vector;
 
 public class Particle {
 
     String particleType;
     Color color;
-    int x,y;
-    Vector<Integer> vector;
-    int velocity;
+    float x,y;
+    float velocityX, velocityY;
 
-    public Particle(int startingX, int startingY){
+    public Particle(float startingX, float startingY, String particleType){
         x = startingX;
         y = startingY;
+        color = MyColor.getColor(particleType);
     }
 
-    public void forceRule(List<Particle> firstParticles, List<Particle> secondParticles, int forceConstant) {
-        int fx = 0;
-        int fy = 0;
-
-        Particle a = firstParticles.get(0);
-        Particle b = secondParticles.get(1);
-
-        int dx = a.x - b.x;
-        int dy = a.y - b.y; 
-        int d = (int) Math.sqrt((dx * dx) + (dy*dy));
-
-        if(d>0){
-            int force = forceConstant * 1/d;
-            fx += (force * dx);
-            fy += (force * dy);
+    public static void createParticles(int number, List<Particle> list, String type){
+        for(int i = 0; i<number; i++){
+            int x = (int)(Math.random() * Main.WIN_WIDTH);
+            int y = (int) (Math.random() * Main.WIN_HEIGHT);
+            list.add(new Particle(x,y, type));
         }
-
-        a.x += fx;
-        a.y += fy;
-        b.x += fx;
-        b.y += fy;
-        
-        System.out.println("a.x = " + a.x);
     }
 
-    public void update(){
+    public void forceRule(List<Particle> firstParticles, List<Particle> secondParticles, float forceConstant) {
+
+        for(int i = 0; i<firstParticles.size(); i++){
+
+            float fx = 0;
+            float fy = 0;
+            float force = 0; 
+            Particle p1 = null;
+            Particle p2 = null;
 
 
+            for(int j = 0; j<secondParticles.size(); j++){
 
+                p1 = firstParticles.get(i);
+                p2 = secondParticles.get(j);
+
+                float dx = p1.x - p2.x;
+                float dy = p1.y - p2.y; 
+                float d = (int) Math.sqrt((dx * dx) + (dy*dy));
+
+                if(d > 0 ){
+                    force = forceConstant * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            
+
+            p1.velocityX = (p1.velocityX + fx) * 0.5f;
+            p1.velocityY = (p1.velocityY + fy) * 0.5f;
+            
+            p1.x += p1.velocityX;
+            p1.y += p1.velocityY;
+
+            if(p1.x <=0 || p1.x >= Main.WIN_WIDTH){ p1.velocityX *= -1;}
+            if(p1.y <=0 || p1.y >= Main.WIN_HEIGHT){ p1.velocityY *= -1;}
+
+            // if(p1.x<0){p1.x = Main.WIN_WIDTH;}
+            // if(p1.x>Main.WIN_WIDTH){p1.x = 0;}
+            // if(p1.y<0){p1.y = Main.WIN_HEIGHT;}
+            // if(p1.y>Main.WIN_HEIGHT){p1.y = 0;}
+    
+            
+        }
     }
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         g2.setPaint(color);
-        g2.fillOval(this.x, this.y, 7, 7);
+        g2.fillOval((int) this.x, (int) this.y, 7, 7);
     }
-
 }

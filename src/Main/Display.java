@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import particles.Particle;
-import particles.RedParticle;
-import particles.YellowParticle;
+// import particles.RedParticle;
+// import particles.YellowParticle;
 
 import javax.swing.JPanel;
 
@@ -20,6 +20,8 @@ public class Display extends JPanel implements Runnable{
     private List<List<Particle>> particleTypeList = new ArrayList<>();
     private List<Particle> yellowParticleList = new ArrayList<>();
     private List<Particle> redParticleList = new ArrayList<>();
+    private List<Particle> greenParticleList = new ArrayList<>();
+    private List<Particle> whiteParticleList = new ArrayList<>();
 
     private final int FPS = 60;
 
@@ -29,16 +31,13 @@ public class Display extends JPanel implements Runnable{
         setPreferredSize(new Dimension(Main.WIN_WIDTH, Main.WIN_HEIGHT));
         setBackground(Color.BLACK);
 
-        Particle y1 = new YellowParticle(150, 150);
-        Particle y2 = new YellowParticle(350, 350);
-        Particle r1 = new RedParticle(100, 500);
-        Particle r2 = new RedParticle(1000, 150);
+        // Particle.createParticles(100, redParticleList, "red");
+        Particle.createParticles(5, yellowParticleList, "yellow");
+        // Particle.createParticles(50, whiteParticleList, "white");
+        // Particle.createParticles(50, greenParticleList, "green");
 
-        yellowParticleList.add(y1);
-        yellowParticleList.add(y2);
-        redParticleList.add(r1);
-        redParticleList.add(r2);
-
+        particleTypeList.add(whiteParticleList);
+        particleTypeList.add(greenParticleList);
         particleTypeList.add(yellowParticleList);
         particleTypeList.add(redParticleList);
     }
@@ -59,7 +58,6 @@ public class Display extends JPanel implements Runnable{
 
             for(Particle particle : particleList){
 
-                particle.forceRule(yellowParticleList, yellowParticleList, 1);
                 particle.draw(g2);
 
             }
@@ -67,6 +65,7 @@ public class Display extends JPanel implements Runnable{
 
 
     }
+
 
 
 
@@ -111,7 +110,24 @@ public class Display extends JPanel implements Runnable{
     }
 
     public void update() {
-        
+        for(List<Particle> particleList : particleTypeList){
+
+            for(Particle particle : particleList){
+
+                // particle.forceRule(yellowParticleList, yellowParticleList, 0.5f);
+                // particle.forceRule(yellowParticleList, redParticleList, -0.5f);
+                // particle.forceRule(greenParticleList, yellowParticleList, 0.5f);
+                // particle.forceRule(redParticleList, yellowParticleList, -0.5f);
+                // particle.forceRule(greenParticleList, redParticleList, 0.5f);
+                // particle.forceRule(redParticleList, yellowParticleList, -0.5f);
+                // particle.forceRule(whiteParticleList, yellowParticleList, 0.5f);
+
+                // particle.forceRule(redParticleList, redParticleList, -0.1f);
+                // particle.forceRule(redParticleList, yellowParticleList, -0.01f);
+                // particle.forceRule(yellowParticleList, redParticleList, 0.01f);
+                particle.forceRule(yellowParticleList, yellowParticleList, 0.01f);
+            }
+        }
     }
 
     
