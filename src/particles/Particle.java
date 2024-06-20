@@ -12,14 +12,16 @@ public class Particle {
     float x,y;
     float velocityX, velocityY;
 
-    public Particle(float startingX, float startingY, String particleType){
+    public Particle(float startingX, float startingY, String type){
         x = startingX;
         y = startingY;
-        color = MyColor.getColor(particleType);
+        color = MyColor.getColor(type);
+        particleType = type;
+        
     }
 
     public static void createParticles(int number, List<Particle> list, String type){
-        for(int i = 0; i<number; i++){
+        for(int i = 0; i<number; i++){           
             int x = (int)(Math.random() * Main.WIN_WIDTH);
             int y = (int) (Math.random() * Main.WIN_HEIGHT);
             list.add(new Particle(x,y, type));
@@ -46,18 +48,25 @@ public class Particle {
                 float dy = p1.y - p2.y; 
                 float d = (int) Math.sqrt((dx * dx) + (dy*dy));
 
-                if(d > 0){
+                if(d > 0&&d<80){
                     force = forceConstant * 1/d;
                     fx += (force * dx);
                     fy += (force * dy);
                 }
-                p1.velocityX = ((p1.velocityX + fx)*0.4f);
-                p1.velocityY = ((p1.velocityY + fy)*0.4f);
+                p1.velocityX = ((p1.velocityX + fx)*0.5f);
+                p1.velocityY = ((p1.velocityY + fy)*0.5f);
+
+                if(p1.x <= 0 || p1.x >= Main.WIN_WIDTH-7){p1.velocityX *= -1;}
+                if(p1.y <= 0 || p1.y >= Main.WIN_HEIGHT-7){p1.velocityY *= -1;}
+
+                // if(p1.x <=0 ){p1.x=Main.WIN_WIDTH-7;}
+                // else if(p1.x >=Main.WIN_WIDTH-7){p1.x = 0;}
+                // if(p1.y <=0 ){p1.y=Main.WIN_HEIGHT-7;}
+                // else if(p1.y >=Main.WIN_HEIGHT-7){p1.y = 0;}
+
                 p1.x += p1.velocityX;
                 p1.y += p1.velocityY;
-            
-                if(p1.x <= 0 || p1.x >= Main.WIN_WIDTH){p1.velocityX = -p1.velocityX;}
-                if(p1.y <= 0 || p1.y >= Main.WIN_HEIGHT){p1.velocityY = -p1.velocityY;}
+                            
 
             }
             

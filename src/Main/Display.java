@@ -31,8 +31,11 @@ public class Display extends JPanel implements Runnable{
         setPreferredSize(new Dimension(Main.WIN_WIDTH, Main.WIN_HEIGHT));
         setBackground(Color.BLACK);
 
-        // Particle.createParticles(100, redParticleList, "red");
-        Particle.createParticles(2, yellowParticleList, "yellow");
+        // test
+        // Particle.createParticles(2, yellowParticleList, "yellow");
+
+        Particle.createParticles(100, redParticleList, "red");
+        Particle.createParticles(200, yellowParticleList, "yellow");
         // Particle.createParticles(50, whiteParticleList, "white");
         // Particle.createParticles(50, greenParticleList, "green");
 
@@ -46,9 +49,13 @@ public class Display extends JPanel implements Runnable{
         for(List<Particle> particleList : particleTypeList){
 
             for(Particle particle : particleList){
+                //test rule
+                // particle.forceRule(yellowParticleList, yellowParticleList, -0.00001f);
 
 
-                particle.forceRule(yellowParticleList, yellowParticleList, 1f);
+                particle.forceRule(redParticleList, redParticleList, -0.01f);
+                particle.forceRule(redParticleList, yellowParticleList, -0.001f);
+                particle.forceRule(yellowParticleList, redParticleList, 0.001f);
             }
         }
     }
@@ -83,39 +90,10 @@ public class Display extends JPanel implements Runnable{
     @Override
     public void run() {
 
-        double updateInterval = 1000000000 / FPS; 
-        double nextUpdateTime = System.nanoTime() + updateInterval;
-        int drawCount = 0;
-        long timer = 0;
-
         while(simulationThread != null){
-            long startLoopTime = System.nanoTime();
 
             update();
             repaint();           
-
-            try {
-                double remainingTime = nextUpdateTime - System.nanoTime();
-                remainingTime = remainingTime/1000000;
-                Thread.sleep((long)remainingTime);
-
-                nextUpdateTime += updateInterval;
-
-                if(remainingTime < 0){
-                    remainingTime = 0;
-                }
-
-            } catch (IllegalArgumentException e) {
-            } catch (InterruptedException e) {
-            }
-            long endLoopTime = System.nanoTime();
-            timer += endLoopTime - startLoopTime;
-            drawCount ++;
-            
-            if(timer >= 1000000000){
-                drawCount = 0;
-                timer = 0;
-            }
 
         }
     }
