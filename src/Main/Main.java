@@ -8,7 +8,8 @@ import javax.swing.SwingUtilities;
 public class Main {
 
     public static final int WIN_WIDTH = 800;
-    public static final int WIN_HEIGHT = WIN_WIDTH * 9 / 16 ; 
+    // public static final int WIN_HEIGHT = WIN_WIDTH * 9 / 16 ; 
+    public static final int WIN_HEIGHT = WIN_WIDTH; 
     static private Display display;
 
     public static void main(String[] args) throws Exception {

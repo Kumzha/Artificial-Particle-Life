@@ -32,7 +32,7 @@ public class Display extends JPanel implements Runnable{
         setBackground(Color.BLACK);
 
         // Particle.createParticles(100, redParticleList, "red");
-        Particle.createParticles(5, yellowParticleList, "yellow");
+        Particle.createParticles(2, yellowParticleList, "yellow");
         // Particle.createParticles(50, whiteParticleList, "white");
         // Particle.createParticles(50, greenParticleList, "green");
 
@@ -40,6 +40,17 @@ public class Display extends JPanel implements Runnable{
         particleTypeList.add(greenParticleList);
         particleTypeList.add(yellowParticleList);
         particleTypeList.add(redParticleList);
+    }
+
+    public void update() {
+        for(List<Particle> particleList : particleTypeList){
+
+            for(Particle particle : particleList){
+
+
+                particle.forceRule(yellowParticleList, yellowParticleList, 1f);
+            }
+        }
     }
 
 
@@ -108,27 +119,5 @@ public class Display extends JPanel implements Runnable{
 
         }
     }
-
-    public void update() {
-        for(List<Particle> particleList : particleTypeList){
-
-            for(Particle particle : particleList){
-
-                // particle.forceRule(yellowParticleList, yellowParticleList, 0.5f);
-                // particle.forceRule(yellowParticleList, redParticleList, -0.5f);
-                // particle.forceRule(greenParticleList, yellowParticleList, 0.5f);
-                // particle.forceRule(redParticleList, yellowParticleList, -0.5f);
-                // particle.forceRule(greenParticleList, redParticleList, 0.5f);
-                // particle.forceRule(redParticleList, yellowParticleList, -0.5f);
-                // particle.forceRule(whiteParticleList, yellowParticleList, 0.5f);
-
-                // particle.forceRule(redParticleList, redParticleList, -0.1f);
-                // particle.forceRule(redParticleList, yellowParticleList, -0.01f);
-                // particle.forceRule(yellowParticleList, redParticleList, 0.01f);
-                particle.forceRule(yellowParticleList, yellowParticleList, 0.01f);
-            }
-        }
-    }
-
     
 }

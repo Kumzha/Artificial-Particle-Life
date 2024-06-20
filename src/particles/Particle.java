@@ -46,28 +46,21 @@ public class Particle {
                 float dy = p1.y - p2.y; 
                 float d = (int) Math.sqrt((dx * dx) + (dy*dy));
 
-                if(d > 0 ){
+                if(d > 0){
                     force = forceConstant * 1/d;
                     fx += (force * dx);
                     fy += (force * dy);
                 }
+                p1.velocityX = ((p1.velocityX + fx)*0.4f);
+                p1.velocityY = ((p1.velocityY + fy)*0.4f);
+                p1.x += p1.velocityX;
+                p1.y += p1.velocityY;
+            
+                if(p1.x <= 0 || p1.x >= Main.WIN_WIDTH){p1.velocityX = -p1.velocityX;}
+                if(p1.y <= 0 || p1.y >= Main.WIN_HEIGHT){p1.velocityY = -p1.velocityY;}
+
             }
             
-
-            p1.velocityX = (p1.velocityX + fx) * 0.5f;
-            p1.velocityY = (p1.velocityY + fy) * 0.5f;
-            
-            p1.x += p1.velocityX;
-            p1.y += p1.velocityY;
-
-            if(p1.x <=0 || p1.x >= Main.WIN_WIDTH){ p1.velocityX *= -1;}
-            if(p1.y <=0 || p1.y >= Main.WIN_HEIGHT){ p1.velocityY *= -1;}
-
-            // if(p1.x<0){p1.x = Main.WIN_WIDTH;}
-            // if(p1.x>Main.WIN_WIDTH){p1.x = 0;}
-            // if(p1.y<0){p1.y = Main.WIN_HEIGHT;}
-            // if(p1.y>Main.WIN_HEIGHT){p1.y = 0;}
-    
             
         }
     }
